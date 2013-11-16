@@ -1,0 +1,183 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Otipl</title>
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+        <style type="text/css">
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 80px;
+  /*background-color: #f5f5f5;*/
+
+}
+/*#wrap > .container {
+  padding: 60px 15px 0;
+}*/
+/*  */ .credit {
+  margin: 20px 0;
+}
+
+#footer > .well {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/*code {
+  font-size: 80%;
+}*/
+        </style>
+    </head>
+    <body>
+        <script src="{% static "js/jquery.js" %}"></script>
+        <script src="{% static "js/bootstrap.js" %}"></script>
+ <div id="wrap">
+ <div class="container">
+ <div class="row text-center"  style="height: 100%; min-height: 100%; vertical-align:middle">
+   <div class="col-md-3 col-md-offset-2" style="height: 100px;vertical-align:middle">
+      <br><br><br>
+      МГУ имени М.В. Ломоносова<br>
+      Филологический факультет
+   </div>
+   <div class="col-md-2" >
+     <img src="{% static "images/logo.jpg" %}" class="img-responsive" style="padding: 5px" alt="Responsive image">
+    </div>
+   <div class="col-md-3">
+      <br><br><br>
+      Отделение теоретической<br>
+      и прикладной лингвистики
+   </div>
+ </div>
+ </div>
+<!-- <div class="row">
+  <div class="col-md-6 col-md-offset-3"><img src="{% static "images/logo.jpg" %}" class="img-responsive" alt="Responsive image"></div>
+</div> -->
+<!-- <div class="col-md-10 col-md-offset-1"> -->
+        <div class="container">
+          <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            
+            <div class="collapse navbar-collapse text-center">
+              <ul class="nav navbar-nav">
+                {% for sec in sections %}
+
+                    <li class="dropdown {% if page and page.subsection.section == sec %} active {% endif %}">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ sec.name }}<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        {% for subsec in sec.page_set.all %}
+                          <li><a href="/{{subsec.slug}}">{{ subsec.name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                {% endfor %}
+                {% for sec in free_sec %}
+                    <li class=""><a href="/{{sec.slug}}">{{sec.name}}</a></li>
+                {% endfor %} 
+                <!-- <li class="active"><a href="#">ОТиПЛ</a></li>
+                <li class=""><a href="#">Школьникам и абитуриентам</a></li>
+                <li class=""><a href="#">Студентам</a></li>
+                <li class=""><a href="#">Абитуриентам</a></li>
+                <li class=""><a href="#">Сотрудникам и преподавателям</a></li>                            
+                <li class=""><a href="#">Проекты</a></li>              
+                <li class=""><a href="#">Книги</a></li>              
+                <li class=""><a href="#">Ссылки</a></li>               -->
+                
+              </ul>
+              
+            </div><!-- /.navbar-collapse -->
+            
+          </nav>
+          <div class="navbar col-md-3">
+              <ul class="nav">
+                <li class="active"><a href="#">ОТиПЛ</a></li>
+                <li class=""><a href="#">Школьникам и абитуриентам</a></li>
+                <li class=""><a href="#">Студентам</a></li>
+                <li class=""><a href="#">Абитуриентам</a></li>
+                <li class=""><a href="#">Сотрудникам и преподавателям</a></li>                            
+                <li class=""><a href="#">Проекты</a></li>              
+                <li class=""><a href="#">Книги</a></li>              
+                <li class=""><a href="#">Ссылки</a></li>
+                
+              </ul>
+              
+            </div><!-- /.navbar-collapse -->
+            
+          </nav>
+          <div class="row">
+            <div class="col-md-8">
+            <!-- {{page}} {{slug}} -->
+
+            
+            {{page.content|safe}}
+<!--            <h5> Что такое ОТиПЛ</h5>
+{{ sections }} {{page}} {{slug}}
+Отделение теоретической (структурной) и прикладной лингвистики (ОТиПЛ, ранее ОСиПЛ) существует на филологическом факультете МГУ с 1960 года.
+
+ОТиПЛ — один из ведущих учебных и исследовательских центров лингвистической науки в России. Здесь готовят высококлассных специалистов в различных областях современной лингвистики.
+              <h5>Программа обучения</h5>
+
+Студенты ОТиПЛа получают фундаментальные знания по вопросам общей теории языка, современных прикладных направлений языкознания, математических методов лингвистического анализа, наиболее важных смежных дисциплин. В свете этих знаний преподаются и важнейшие аспекты русского языка. -->
+
+            </div>
+            {% if page.has_news %}
+            <div class="col-md-4">
+            <div class="well"> <h4 class="text-center">Новости</h4>
+               {{news|safe}}
+               <!-- Сегодня ничего не произошло, вообще. Давно ничего не происходило.
+                              Сегодня ничего не произошло, вообще. Давно ничего не происходило.
+                                             Сегодня ничего не произошло, вообще. Давно ничего не происходило.
+                                                            Сегодня ничего не произошло, вообще. Давно ничего не происходило.
+                                                                           Сегодня ничего не произошло, вообще. Давно ничего не происходило. -->
+            </div>
+            </div>
+            {% endif %}
+          </div>
+          <div class='row'>
+              <div class="col-md-12">
+              {% if files %}
+              <h6> Прикрепленные файлы</h6>
+              {% for f in files %}
+                <!-- {{ f }} -->
+
+                <a href="{{ f.url|safe }}" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> {{f.name}}</a>
+              {% endfor%}
+            {% endif %}
+            </div>
+          </div>
+        </div>
+        </div>
+    <div id="footer">
+    <div class="container">
+    <div class="row">
+<div class="well well-sm col-md-4 text-muted"><small>
+        119991, Москва, Ленинские горы, ГСП-1, <br>
+МГУ имени М. В. Ломоносова,<br>
+1-й корпус гуманитарных факультетов (1-й ГУМ), <br>
+филологический факультет<br>
+Тел.: +7 (495) 939-32-77, E-mail: dekan@philol.msu.ru</small>
+</div>
+      </div>
+      </div>
+    </div>
+        <!-- </div> -->
+      </body>
+</html>
