@@ -5,7 +5,7 @@ from models import Section, Page, NewsItem, File
 
 from django.core.files import File as DjFile
 import os
-from otipl.settings import PROJECT_DIR
+from otipl.settings import PROJECT_DIR, SCRIPT_NAME
 
 def make_news():
     news = NewsItem.objects.filter(show=True).order_by('-created_at')
@@ -51,7 +51,7 @@ def otipl(request, slug=''):
                 'free_sec': free_sec, 
                 'left_bar': left_bar,
                 'get_pass_button': get_pass[0] if get_pass else ''}
-
+    request.META['SCRIPT_NAME'] = SCRIPT_NAME
     return render(request, 'main/otipl.html', context)
 
 
