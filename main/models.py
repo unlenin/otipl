@@ -9,6 +9,9 @@ from otipl.settings import PROJECT_DIR
 
 import os
 
+from django.db import models
+from tinymce import models as tinymce_model
+
 fs = FileSystemStorage(location=os.path.join(PROJECT_DIR, "files"))
 
 class File(models.Model):
@@ -30,8 +33,8 @@ class Section(OrderedModel):
         return self.name
 
 class Page(OrderedModel):
-    content = models.CharField(max_length=30000)
-    name = models.CharField(max_length=30)
+    content = tinymce_model.HTMLField() #models.CharField(max_length=30000)
+    name = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, blank=True)
     section = models.ForeignKey(Section, blank=True, null=True)
     on_left_bar = models.BooleanField()

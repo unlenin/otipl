@@ -6,14 +6,14 @@ from models import TestModel, Section, Page,NewsItem,File
 from django import forms
 
 class PageModelForm( forms.ModelForm ):
-    content = forms.CharField( widget=forms.Textarea )
+    #content = forms.CharField( widget=forms.Textarea )
     class Meta:
         model = Page
 
 class PageAdmin(OrderedModelAdmin):
-    form = PageModelForm
+    #form = PageModelForm
     exclude = ('order', )
-    list_display = ['name', 'section','reorder']
+    list_display = ['name', 'section', 'reorder']
 
 class TestModelAdmin(OrderedModelAdmin):
     list_display = ['name', 'reorder']

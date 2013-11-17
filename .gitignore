@@ -1,2 +1,5 @@
 *.pyc
 .DS_Store
+static_storage
+otipl/otipl*.db
+static/tiny_mce
