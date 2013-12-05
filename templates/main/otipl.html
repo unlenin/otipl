@@ -157,7 +157,16 @@
 	   					
 	   				});            	    
             });
-
+            $("#reg_name").keyup(function (){
+            	$.post("{% url 'main.views.is_name_avail' %}", {"name": $(this).val()}).done(function(data){
+	   					if (JSON.parse(data)["busy"] == 1)
+	   						$("#nmm").html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+	   					else
+	   						$("#nmm").html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+	   						
+	   					
+	   				});            	    
+            });
 		});
         </script>
 		<div id="wrap">
@@ -257,6 +266,14 @@
     </div>
     <div id="emm" style="height: 34px; vertical-align:center">
     </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-xs-4 control-label">Имя пользователя</label>
+    <div class="col-xs-5">
+      <input type="input" class="form-control" id="reg_name" name="username" placeholder="username" required>
+    </div>
+    <div id="nmm" style="height: 34px; vertical-align:center">
+  </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-xs-4 control-label">Пароль</label>

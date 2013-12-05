@@ -21,17 +21,28 @@ from forms import ImageUploadForm
 def check_user(request):
     email = request.POST['email']
     password = request.POST['password']
-    user = authenticate(username=email, password=password)
-    r = {"valid": 1};
-    if user is None or not user.is_active:
-        r["valid"] = 0;
+    users = User.objects.filter(email=email)
+    r = {"valid": 0};
+    if users:
+        user = authenticate(username=users[0].username, password=password)
+
+        if user and user.is_active:
+            r["valid"] = 1;
     return HttpResponse(json.dumps(r));
 
 @csrf_exempt
 def is_email_avail(request):
     email = request.POST['email']
     r = {"busy": 0};
-    if User.objects.filter(username=email).count() or not re.match("[^@]+@[^@]+\.[^@]+", email):
+    if User.objects.filter(email=email).count() or not re.match("[^@]+@[^@]+\.[^@]+", email):
+        r["busy"] = 1;
+    return HttpResponse(json.dumps(r));
+
+@csrf_exempt
+def is_name_avail(request):
+    name = request.POST['name']
+    r = {"busy": 0};
+    if User.objects.filter(username=name).count()  or not re.match("^[a-zA-Z0-9_.-]+$", name):
         r["busy"] = 1;
     return HttpResponse(json.dumps(r));
 
@@ -39,7 +50,11 @@ def is_email_avail(request):
 def login_user(request):
     email = request.POST['email']
     password = request.POST['password']
-    user = authenticate(username=email, password=password)
+    users = User.objects.filter(email=email)
+    r = {"valid": 0};
+    user = None
+    if users:
+        user = authenticate(username=users[0].username, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
@@ -105,6 +120,7 @@ def edit(request):
     if request.method == 'POST':
         if 'email' in request.POST:
             email = request.POST['email']
+            username = request.POST['username']
             password = request.POST['password']
             lastname = request.POST['lastname']
             firstname = request.POST['firstname']
@@ -113,10 +129,14 @@ def edit(request):
             education = request.POST.get('education','')
             year = request.POST.get('year','1')
             course = request.POST.get('course','1')
-            user = User.objects.create_user(email, email, password)
+            user = User.objects.create_user(username, email, password)
             user.first_name = firstname
             user.last_name = lastname
-            
+            user.save()
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
             profile = UserProfile()
             profile.user = user
             profile.middle_name = middlename
