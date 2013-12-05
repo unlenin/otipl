@@ -1,0 +1,16 @@
+{% extends "main/otipl.html" %}
+{% block content %}
+<h3>{{ name }}</h3>
+
+<img src="/v2014{{st_profile.photo.url }}" class="img-thumbnail">
+
+<h3>О себе</h3>
+{{st_profile.about|safe}}
+
+<h3>Преподавание</h3>
+{{st_profile.teaching|safe}}
+<h3>Научная деятельность</h3>
+{{st_profile.science|safe}}
+<h3>Основные публикации</h3>
+{{st_profile.publications|safe}}
+{% endblock %}

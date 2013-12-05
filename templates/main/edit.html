@@ -1,0 +1,55 @@
+{% extends "main/otipl.html" %}
+{% block content %}
+<h3>Редактирование профиля</h3><br/>
+<form action="{% url 'main.views.edit' %}" method="post"  class="form-horizontal" role="form" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="form-group">
+    <label for="inputPassword3" class="col-xs-3 control-label">Фотография</label>
+    <div class="col-xs-5">
+		<div class="fileinput fileinput-new" data-provides="fileinput">
+		  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 250px; height: 250px;">
+		  	{% if request.user.user_profile.all.0.photo %}
+		  	<img src="/v2014{{ request.user.user_profile.all.0.photo.url }}" />
+		  	{% endif %}
+		  </div>
+		  <div>
+		    <span class="btn btn-default btn-file"><span class="fileinput-new">Выбрать фотографию</span>
+		    <span class="fileinput-exists">Сменить</span><input type="file" name="image"></span>
+		    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Удалить</a>
+		  </div>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-xs-3 control-label">О себе</label>
+    <div class="col-xs-8">
+		<textarea class="form-control" name="about" rows="6">{% if  profile.about  %} {{ profile.about }} {% endif %}</textarea>
+		</div>
+</div>
+{% if profile.status == 'teacher' %}
+<div class="form-group">
+    <label for="inputPassword3" class="col-xs-3 control-label">Преподавание</label>
+    <div class="col-xs-8">
+		<textarea class="form-control" name="teaching" rows="6">{% if  profile.teaching  %} {{ profile.teaching }} {% endif %}</textarea>
+		</div>
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-xs-3 control-label">Научная деятельность</label>
+    <div class="col-xs-8">
+		<textarea class="form-control" name="science" rows="6">{% if  profile.science  %} {{ profile.science }} {% endif %}</textarea>
+		</div>
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-xs-3 control-label">Основные публикации</label>
+    <div class="col-xs-8">
+		<textarea class="form-control" name="publications" rows="6">{% if  profile.publications  %} {{ profile.publications }} {% endif %}</textarea>
+		</div>
+</div>
+{% endif %}
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-8">
+      <button type="submit" class="btn btn-default" id="signup" >Сохранить</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
