@@ -210,12 +210,17 @@ def save(request):
 def staff(request, name):
     context = get_context(request)
     pages = Page.objects.filter(slug='staff/' + name)
+    users = User.objects.filter(username=name)
+    if pages or users:
+        if pages:
+            context["name"] = pages[0].name
+            lastname,firstname,middlename = pages[0].name.split()
+            users = User.objects.filter(first_name=firstname,last_name=lastname)
+        else:
+            user = users[0]
+            context["name"] = "%s %s %s" % (user.last_name,user.first_name,user.user_profile.all()[0].middle_name)      
 
-    if pages:
-        context["name"] = pages[0].name
-        lastname,firstname,middlename = pages[0].name.split()
-
-        users = User.objects.filter(first_name=firstname,last_name=lastname)
+        
         if users:
             st_profile = users[0].user_profile.all()[0]
             context['st_profile'] = st_profile
