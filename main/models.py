@@ -11,8 +11,12 @@ import os
 
 from django.db import models
 from tinymce import models as tinymce_model
+from django.contrib.auth.models import User
 
 fs = FileSystemStorage(location=os.path.join(PROJECT_DIR, "files"))
+
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^tinymce\.models.\HTMLField"])
 
 class File(models.Model):
     page = models.ForeignKey('Page')
@@ -20,6 +24,21 @@ class File(models.Model):
 
     def __unicode__(self):
         return unicode(self.file) + " in " + unicode(self.page)
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, related_name="user_profile")
+    middle_name = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(max_length=100, blank=True, null=True)
+    education = models.CharField(max_length=100, blank=True, null=True)
+    grade = models.IntegerField(default=0)
+    year = models.IntegerField(default=0)
+    photo = models.ImageField(upload_to='pic_folder/')
+    about = models.CharField(max_length=30000, blank=True, null=True)
+    science = models.CharField(max_length=30000, blank=True, null=True)
+    teaching = models.CharField(max_length=30000, blank=True, null=True)
+    publications = models.CharField(max_length=30000, blank=True, null=True)
+    def __unicode__(self):
+        return self.user.username
 
 class TestModel(OrderedModel):
     name = models.CharField(max_length=30)
@@ -47,6 +66,8 @@ class Page(OrderedModel):
 class NewsItem(models.Model):
     header = models.CharField(max_length=200)
     content = models.TextField(max_length=1000)
+    scheduled = models.DateTimeField()
+    valid_until = models.DateTimeField()    
     created_at = models.DateTimeField(auto_now_add = True)
     show = models.BooleanField()
 

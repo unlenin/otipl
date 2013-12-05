@@ -1,7 +1,7 @@
 from django.contrib import admin
 from orderedmodel import OrderedModelAdmin
 
-from models import TestModel, Section, Page,NewsItem,File
+from models import TestModel, Section, Page,NewsItem,File,UserProfile
 
 from django import forms
 
@@ -34,3 +34,4 @@ admin.site.register(Section, SectionAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(NewsItem)
 admin.site.register(File)
+admin.site.register(UserProfile)

@@ -134,7 +134,8 @@ INSTALLED_APPS = (
     'main',
     'orderedmodel',
     'south',
-    'tinymce'
+    'tinymce',
+    'attachment',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -177,7 +178,13 @@ LOGGING = {
         },
     }
 }
+ATTACHMENT_FOR_MODELS = [
+    'main.models.Page',
+]
 
+ATTACHMENT_LINK_MODELS = [
+    'main.models.Page',
+]
 TINYMCE_JS_URL = STATIC_URL + "tiny_mce/tiny_mce.js"
 TINYMCE_JS_ROOT = STATIC_URL + "/tiny_mce"
 TINYMCE_SPELLCHECKER=False
@@ -196,6 +203,8 @@ TINYMCE_PLUGINS = [
 ]
 
 TINYMCE_DEFAULT_CONFIG={
+    'external_image_list_url': 'images/',
+    'external_link_list_url': 'links/',    
     'theme' : "advanced",
     'plugins' : ",".join(TINYMCE_PLUGINS), # django-cms
     'language' : 'ru',

@@ -3,3 +3,4 @@
 static_storage
 otipl/otipl*.db
 static/tiny_mce
+files/*
